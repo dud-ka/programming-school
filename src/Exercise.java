@@ -4,8 +4,6 @@ public class Exercise {
 	private String title;
 	private String description;
 
-	private static final String QUERY_SELECT = "SELECT * from exercise where id=?;";
-
 
 	public Exercise(int id, String title, String description) {
 		this.id = id;

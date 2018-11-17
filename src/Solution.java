@@ -1,13 +1,15 @@
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Solution {
 
 	int id;
-	LocalDateTime created;
-	LocalDateTime updated;
+	Timestamp created;
+	Timestamp updated;
 	String description;
 
-	public Solution(int id, LocalDateTime created, LocalDateTime updated, String description) {
+	public Solution(int id, Timestamp created, Timestamp updated, String description) {
 		this.id = id;
 		this.created = created;
 		this.updated = updated;
@@ -24,19 +26,19 @@ public class Solution {
 		this.id = id;
 	}
 
-	public LocalDateTime getCreated() {
+	public Timestamp getCreated() {
 		return created;
 	}
 
-	public void setCreated(LocalDateTime created) {
+	public void setCreated(Timestamp created) {
 		this.created = created;
 	}
 
-	public LocalDateTime getUpdated() {
+	public Timestamp getUpdated() {
 		return updated;
 	}
 
-	public void setUpdated(LocalDateTime updated) {
+	public void setUpdated(Timestamp updated) {
 		this.updated = updated;
 	}
 
