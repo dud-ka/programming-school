@@ -12,7 +12,7 @@ public class UserDao {
 	private static final String ALL_EXERCISES_QUERY = "SELECT * FROM users";
 	private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?;";
 	private static final String UPDATE_QUERY = "UPDATE users SET username = ?, email = ?, password = ?, userGroupId = ? WHERE id = ?;";
-	private static final String SELECT_ALL_BY_GROUP_ID = "SELECT * from users where userGroupId = ?;";
+	private static final String SELECT_ALL_BY_GROUP_ID = "SELECT * from users where user_group_id = ?;";
 
 
 	public User create(User user) {
@@ -93,26 +93,32 @@ public class UserDao {
 		return user;
 	}
 
-	public User getByUserId(int searchId) {
-		User user = null;
-		try (Connection conn = DbUtil.getConnection("school");
-		     PreparedStatement stat = conn.prepareStatement(SELECT_ALL_BY_GROUP_ID);
-		) {
-			stat.setInt(1, searchId);
-			try (ResultSet rs = stat.executeQuery()) {
-				while (rs.next()) {
-					int id = rs.getInt("id");
-					String username = rs.getString("username");
-					String email = rs.getString("email");
-					String password = rs.getString("password");
-					int userGroupId = rs.getInt("user_group_id");
-					user = new User(id, username, email, password, userGroupId);
-				}
+	public User[] getByGroupId(int searchId) {
+		List<User> userList = new ArrayList<>();
+		try (Connection connection = DbUtil.getConnection("school");
+		     PreparedStatement statement = connection.prepareStatement(SELECT_ALL_BY_GROUP_ID);)
+		{
+			statement.setInt(1, searchId);
+			ResultSet resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				User toAdd = new User();
+				toAdd.setId(resultSet.getInt("id"));
+				toAdd.setUsername(resultSet.getString("username"));
+				toAdd.setEmail(resultSet.getString("email"));
+				toAdd.setPassword(resultSet.getString("password"));
+				toAdd.setUserGroupId(resultSet.getInt("user_group_id"));
+				userList.add(toAdd);
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("Cos sie nie powiodło");
 		}
-		return user;
+
+		User[] array = new User[userList.size()];
+		array = userList.toArray(array);
+		return array;
 	}
 
 

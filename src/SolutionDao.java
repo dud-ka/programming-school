@@ -96,51 +96,63 @@ public class SolutionDao {
 		return solution;
 	}
 
-	public Solution getByExerciseId(int searchId) {
-		Solution solution = null;
-		try (Connection conn = DbUtil.getConnection("school");
-		     PreparedStatement stat = conn.prepareStatement(SELECT_ALL_BY_EXERCISE_ID);
-		) {
-			stat.setInt(1, searchId);
-			try (ResultSet rs = stat.executeQuery()) {
-				while (rs.next()) {
-					int id = rs.getInt("id");
-					Timestamp created = rs.getTimestamp("created");
-					Timestamp updated = rs.getTimestamp("updated");
-					String description = rs.getString("description");
-					int userId = rs.getInt("user_id");
-					int exerciseId = rs.getInt("exercise_id");
-					solution = new Solution(id, created, updated, description, exerciseId, userId);
-				}
+	public Solution[] getByExerciseId(int searchId) {
+		List<Solution> solutionList = new ArrayList<>();
+		try (Connection connection = DbUtil.getConnection("school");
+		     PreparedStatement statement = connection.prepareStatement(SELECT_ALL_BY_EXERCISE_ID);
+		     ) {
+			statement.setInt(1, searchId);
+			ResultSet resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				Solution toAdd = new Solution();
+				toAdd.setId(resultSet.getInt("id"));
+				toAdd.setCreated(resultSet.getTimestamp("created"));
+				toAdd.setUpdated(resultSet.getTimestamp("updated"));
+				toAdd.setDescription(resultSet.getString("description"));
+				toAdd.setExerciseId(resultSet.getInt("exercise_id"));
+				toAdd.setUserId(resultSet.getInt("user_id"));
+				solutionList.add(toAdd);
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("Cos sie nie powiodło");
 		}
-		return solution;
+
+		Solution[] array = new Solution[solutionList.size()];
+		array = solutionList.toArray(array);
+		return array;
 	}
 
 
-	public Solution getByUserId(int searchId) {
-		Solution solution = null;
-		try (Connection conn = DbUtil.getConnection("school");
-		     PreparedStatement stat = conn.prepareStatement(SELECT_ALL_BY_USER_ID);
+	public Solution[] getByUserId(int searchId) {
+		List<Solution> solutionList = new ArrayList<>();
+		try (Connection connection = DbUtil.getConnection("school");
+		     PreparedStatement statement = connection.prepareStatement(SELECT_ALL_BY_USER_ID);
 		) {
-			stat.setInt(1, searchId);
-			try (ResultSet rs = stat.executeQuery()) {
-				while (rs.next()) {
-					int id = rs.getInt("id");
-					Timestamp created = rs.getTimestamp("created");
-					Timestamp updated = rs.getTimestamp("updated");
-					String description = rs.getString("description");
-					int userId = rs.getInt("user_id");
-					int exerciseId = rs.getInt("exercise_id");
-					solution = new Solution(id, created, updated, description, exerciseId, userId);
-				}
+			statement.setInt(1, searchId);
+			ResultSet resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				Solution toAdd = new Solution();
+				toAdd.setId(resultSet.getInt("id"));
+				toAdd.setCreated(resultSet.getTimestamp("created"));
+				toAdd.setUpdated(resultSet.getTimestamp("updated"));
+				toAdd.setDescription(resultSet.getString("description"));
+				toAdd.setExerciseId(resultSet.getInt("exercise_id"));
+				toAdd.setUserId(resultSet.getInt("user_id"));
+				solutionList.add(toAdd);
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("Cos sie nie powiodło");
 		}
-		return solution;
+
+		Solution[] array = new Solution[solutionList.size()];
+		array = solutionList.toArray(array);
+		return array;
 	}
 
 
