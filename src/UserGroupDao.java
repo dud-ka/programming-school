@@ -13,7 +13,6 @@ public class UserGroupDao {
 	private static final String DELETE_QUERY = "DELETE FROM user_group WHERE id = ?;";
 	private static final String UPDATE_QUERY = "UPDATE user_group SET name = ? WHERE id = ?;";
 
-	//  =============== CREATE ===============
 
 	public UserGroup create(UserGroup userGroup) {
 		try (Connection connection = DbUtil.getConnection("school");
@@ -41,7 +40,6 @@ public class UserGroupDao {
 		return null;
 	}
 
-	//	=============== SELECT BY ID  ===============
 
 	public UserGroup getById(int searchId) {
 		UserGroup userGroup = null;
@@ -62,7 +60,6 @@ public class UserGroupDao {
 		return userGroup;
 	}
 
-	//  =============== SELECT ALL ===============
 
 	public UserGroup[] getAll() {
 		List<UserGroup> userGroupList = new ArrayList<>();
@@ -88,8 +85,6 @@ public class UserGroupDao {
 
 	}
 
-	//  =============== UPDATE ===============
-
 	public void update(UserGroup userGroup) {
 		try (Connection connection = DbUtil.getConnection("school");
 		     PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY);) {
@@ -103,7 +98,6 @@ public class UserGroupDao {
 		}
 	}
 
-//  =============== DELETE ===============
 
 	public void delete(Integer id) {
 		try (Connection connection = DbUtil.getConnection("school");

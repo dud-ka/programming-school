@@ -13,7 +13,6 @@ public class ExerciseDao {
 	private static final String DELETE_QUERY = "DELETE FROM exercise WHERE id = ?;";
 	private static final String UPDATE_QUERY = "UPDATE exercise SET title = ?, description = ? WHERE id = ?;";
 
-	//  =============== CREATE ===============
 
 	public Exercise create(Exercise exercise) {
 		try (Connection connection = DbUtil.getConnection("school");
@@ -43,8 +42,6 @@ public class ExerciseDao {
 	}
 
 
-//	=============== SELECT BY ID  ===============
-
 	public Exercise getById(int searchId) {
 		Exercise exercise = null;
 		try (Connection conn = DbUtil.getConnection("school");
@@ -66,7 +63,6 @@ public class ExerciseDao {
 	}
 
 
-//  =============== SELECT ALL ===============
 
 	public Exercise[] getAll() {
 		List<Exercise> exerciseList = new ArrayList<>();
@@ -93,7 +89,6 @@ public class ExerciseDao {
 
 	}
 
-	//  =============== UPDATE ===============
 
 	public void update(Exercise exercise) {
 		try (Connection connection = DbUtil.getConnection("school");
@@ -109,7 +104,6 @@ public class ExerciseDao {
 		}
 	}
 
-//  =============== DELETE ===============
 
 	public void delete(Integer id) {
 		try (Connection connection = DbUtil.getConnection("school");

@@ -7,17 +7,13 @@ import java.util.List;
 
 public class UserDao {
 
-//	pobranie wszystkich członków danej grupy
-//  dopisz metodę loadAllByGroupId do klasy User
-
 	private static final String QUERY_SELECT = "SELECT * from users where id=?;";
-	private static final String CREATE_QUERY = "INSERT INTO users(username, email, password) VALUES (?,?,?);";
+	private static final String CREATE_QUERY = "INSERT INTO users(username, email, password, userGroupId) VALUES (?,?,?,?);";
 	private static final String ALL_EXERCISES_QUERY = "SELECT * FROM users";
 	private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?;";
-	private static final String UPDATE_QUERY = "UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?;";
+	private static final String UPDATE_QUERY = "UPDATE users SET username = ?, email = ?, password = ?, userGroupId = ? WHERE id = ?;";
+	private static final String SELECT_ALL_BY_GROUP_ID = "SELECT * from users where userGroupId = ?;";
 
-
-	//  =============== CREATE ===============
 
 	public User create(User user) {
 		try (Connection connection = DbUtil.getConnection("school");
@@ -26,6 +22,7 @@ public class UserDao {
 			insertStm.setString(1, user.getUsername());
 			insertStm.setString(2, user.getEmail());
 			insertStm.setString(3, user.getPassword());
+			insertStm.setInt(4, user.getUserGroupId());
 			int result = insertStm.executeUpdate();
 
 			if (result != 1) {
@@ -48,32 +45,6 @@ public class UserDao {
 	}
 
 
-	//	=============== SELECT BY ID ===============
-
-	public User getById(int searchId) {
-		User user = null;
-		try (Connection conn = DbUtil.getConnection("school");
-		     PreparedStatement stat = conn.prepareStatement(QUERY_SELECT);
-		) {
-			stat.setInt(1, searchId);
-			try (ResultSet rs = stat.executeQuery()) {
-				while (rs.next()) {
-					int id = rs.getInt("id");
-					String username = rs.getString("username");
-					String email = rs.getString("email");
-					String password = rs.getString("password");
-					user = new User(id, username, email, password);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return user;
-	}
-
-
-	//  =============== SELECT ALL ===============
-
 	public User[] getAll() {
 		List<User> userList = new ArrayList<>();
 		try (Connection connection = DbUtil.getConnection("school");
@@ -86,6 +57,7 @@ public class UserDao {
 				toAdd.setUsername(resultSet.getString("username"));
 				toAdd.setEmail(resultSet.getString("email"));
 				toAdd.setPassword(resultSet.getString("password"));
+				toAdd.setUserGroupId(resultSet.getInt("user_group_id"));
 				userList.add(toAdd);
 			}
 
@@ -99,15 +71,59 @@ public class UserDao {
 		return array;
 	}
 
-	//  =============== UPDATE ===============
+	public User getById(int searchId) {
+		User user = null;
+		try (Connection conn = DbUtil.getConnection("school");
+		     PreparedStatement stat = conn.prepareStatement(QUERY_SELECT);
+		) {
+			stat.setInt(1, searchId);
+			try (ResultSet rs = stat.executeQuery()) {
+				while (rs.next()) {
+					int id = rs.getInt("id");
+					String username = rs.getString("username");
+					String email = rs.getString("email");
+					String password = rs.getString("password");
+					int userGroupId = rs.getInt("user_group_id");
+					user = new User(id, username, email, password, userGroupId);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+
+	public User getByUserId(int searchId) {
+		User user = null;
+		try (Connection conn = DbUtil.getConnection("school");
+		     PreparedStatement stat = conn.prepareStatement(SELECT_ALL_BY_GROUP_ID);
+		) {
+			stat.setInt(1, searchId);
+			try (ResultSet rs = stat.executeQuery()) {
+				while (rs.next()) {
+					int id = rs.getInt("id");
+					String username = rs.getString("username");
+					String email = rs.getString("email");
+					String password = rs.getString("password");
+					int userGroupId = rs.getInt("user_group_id");
+					user = new User(id, username, email, password, userGroupId);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+
 
 	public void update(User user) {
 		try (Connection connection = DbUtil.getConnection("school");
 		     PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY);) {
-			statement.setInt(4, user.getId());
+			statement.setInt(5, user.getId());
 			statement.setString(1, user.getUsername());
 			statement.setString(2, user.getEmail());
 			statement.setString(3, user.getPassword());
+			statement.setInt(4, user.getUserGroupId());
 
 			statement.executeUpdate();
 		} catch (Exception e) {
@@ -116,7 +132,6 @@ public class UserDao {
 		}
 	}
 
-	//  =============== DELETE ===============
 
 	public void delete(Integer id) {
 		try (Connection connection = DbUtil.getConnection("school");
@@ -128,6 +143,5 @@ public class UserDao {
 			System.out.println("Cos sie nie powiodło");
 		}
 	}
-
 
 }

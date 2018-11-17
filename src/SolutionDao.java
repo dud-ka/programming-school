@@ -13,7 +13,6 @@ public class SolutionDao {
 	private static final String SELECT_ALL_BY_USER_ID = "SELECT * FROM solution WHERE user_id = ?;";
 
 
-	//  =============== CREATE ===============
 
 	public Solution create(Solution solution) {
 		try (Connection connection = DbUtil.getConnection("school");
@@ -45,32 +44,6 @@ public class SolutionDao {
 		return null;
 	}
 
-//	=============== SELECT BY ID  ===============
-
-	public Solution getById(int searchId) {
-		Solution solution = null;
-		try (Connection conn = DbUtil.getConnection("school");
-		     PreparedStatement stat = conn.prepareStatement(QUERY_SELECT);
-		) {
-			stat.setInt(1, searchId);
-			try (ResultSet rs = stat.executeQuery()) {
-				while (rs.next()) {
-					int id = rs.getInt("id");
-					Timestamp created = rs.getTimestamp("created");
-					Timestamp updated = rs.getTimestamp("updated");
-					String description = rs.getString("description");
-					int userId = rs.getInt("user_id");
-					int exerciseId = rs.getInt("exercise_id");
-					solution = new Solution(id, created, updated, description, exerciseId, userId);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return solution;
-	}
-
-	//  =============== SELECT ALL ===============
 
 	public Solution[] getAll() {
 		List<Solution> solutionList = new ArrayList<>();
@@ -100,39 +73,28 @@ public class SolutionDao {
 
 	}
 
-	//  =============== UPDATE ===============
-
-	public void update(Solution solution) {
-		try (Connection connection = DbUtil.getConnection("school");
-		     PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY);) {
-			statement.setInt(6, solution.getId());
-			statement.setTimestamp(1, solution.getCreated());
-			statement.setTimestamp(2, solution.getUpdated());
-			statement.setString(3, solution.getDescription());
-			statement.setInt(4, solution.getExerciseId());
-			statement.setInt(5, solution.getUserId());
-
-			statement.executeUpdate();
-		} catch (Exception e) {
+	public Solution getById(int searchId) {
+		Solution solution = null;
+		try (Connection conn = DbUtil.getConnection("school");
+		     PreparedStatement stat = conn.prepareStatement(QUERY_SELECT);
+		) {
+			stat.setInt(1, searchId);
+			try (ResultSet rs = stat.executeQuery()) {
+				while (rs.next()) {
+					int id = rs.getInt("id");
+					Timestamp created = rs.getTimestamp("created");
+					Timestamp updated = rs.getTimestamp("updated");
+					String description = rs.getString("description");
+					int userId = rs.getInt("user_id");
+					int exerciseId = rs.getInt("exercise_id");
+					solution = new Solution(id, created, updated, description, exerciseId, userId);
+				}
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("Cos sie nie powiodło");
 		}
+		return solution;
 	}
-
-	//  =============== DELETE ===============
-
-	public void delete(Integer id) {
-		try (Connection connection = DbUtil.getConnection("school");
-		     PreparedStatement statement = connection.prepareStatement(DELETE_QUERY);) {
-			statement.setInt(1, id);
-			statement.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Cos sie nie powiodło");
-		}
-	}
-
-	//	=============== SELECT BY EXERCISE ID  ===============
 
 	public Solution getByExerciseId(int searchId) {
 		Solution solution = null;
@@ -157,7 +119,6 @@ public class SolutionDao {
 		return solution;
 	}
 
-	//	=============== SELECT BY USER ID  ===============
 
 	public Solution getByUserId(int searchId) {
 		Solution solution = null;
@@ -181,5 +142,38 @@ public class SolutionDao {
 		}
 		return solution;
 	}
+
+
+
+
+	public void update(Solution solution) {
+		try (Connection connection = DbUtil.getConnection("school");
+		     PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY);) {
+			statement.setInt(6, solution.getId());
+			statement.setTimestamp(1, solution.getCreated());
+			statement.setTimestamp(2, solution.getUpdated());
+			statement.setString(3, solution.getDescription());
+			statement.setInt(4, solution.getExerciseId());
+			statement.setInt(5, solution.getUserId());
+
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Cos sie nie powiodło");
+		}
+	}
+
+
+	public void delete(Integer id) {
+		try (Connection connection = DbUtil.getConnection("school");
+		     PreparedStatement statement = connection.prepareStatement(DELETE_QUERY);) {
+			statement.setInt(1, id);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Cos sie nie powiodło");
+		}
+	}
+
 
 }
