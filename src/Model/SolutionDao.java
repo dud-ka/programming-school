@@ -1,3 +1,7 @@
+package Model;
+
+import Service.DbUtil;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,3 +1,5 @@
+package Model;
+
 import java.sql.Timestamp;
 
 public class Solution {
@@ -70,7 +72,7 @@ public class Solution {
 
 	@Override
 	public String toString() {
-		return "Solution{" +
+		return "Model.Solution{" +
 				"id=" + id +
 				", created=" + created +
 				", updated=" + updated +

@@ -1,3 +1,5 @@
+package Model;
+
 public class UserGroup {
 
 	int id;
@@ -28,7 +30,7 @@ public class UserGroup {
 
 	@Override
 	public String toString() {
-		return "UserGroup{" +
+		return "Model.UserGroup{" +
 				"id=" + id +
 				", name='" + name + '\'' +
 				'}';

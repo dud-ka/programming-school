@@ -1,3 +1,7 @@
+package Model;
+
+import Service.BCrypt;
+
 public class User {
 
 	private int id;
@@ -58,7 +62,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User{" +
+		return "Model.User{" +
 				"id=" + id +
 				", username='" + username + '\'' +
 				", password='" + password + '\'' +

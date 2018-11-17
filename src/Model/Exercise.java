@@ -1,3 +1,5 @@
+package Model;
+
 public class Exercise {
 
 	private int id;
@@ -41,7 +43,7 @@ public class Exercise {
 
 	@Override
 	public String toString() {
-		return "Exercise {" +
+		return "Model.Exercise {" +
 				"id=" + id +
 				", title='" + title + '\'' +
 				", description='" + description + '\'' +
