@@ -4,17 +4,14 @@ import java.util.List;
 
 public class SolutionDao {
 
-//pobranie wszystkich rozwiązań danego użytkownika
-// (dopisz metodę loadAllByUserId do klasy Solution),
-
-//pobranie wszystkich rozwiązań danego zadania, posortowanych
-// od najnowszego do najstarszego (dopisz metodę loadAllByExerciseId do klasy Solution),
-
 	private static final String QUERY_SELECT = "SELECT * from solution where id=?;";
-	private static final String CREATE_QUERY = "INSERT INTO solution(created, updated, description) VALUES (?,?,?);";
+	private static final String CREATE_QUERY = "INSERT INTO solution(created, updated, description, exercise_id, user_id) VALUES (?,?,?,?,?);";
 	private static final String ALL_EXERCISES_QUERY = "SELECT * FROM solution";
 	private static final String DELETE_QUERY = "DELETE FROM solution WHERE id = ?;";
-	private static final String UPDATE_QUERY = "UPDATE solution SET created = ?, updated = ?, description = ? WHERE id = ?;";
+	private static final String UPDATE_QUERY = "UPDATE solution SET created = ?, updated = ?, description = ?, exercise_id = ?, user_id = ? WHERE id = ?;";
+	private static final String SELECT_ALL_BY_EXERCISE_ID = "SELECT * FROM solution WHERE exercise_id = ?;";
+	private static final String SELECT_ALL_BY_USER_ID = "SELECT * FROM solution WHERE user_id = ?;";
+
 
 	//  =============== CREATE ===============
 
@@ -25,6 +22,8 @@ public class SolutionDao {
 			insertStm.setTimestamp(1, solution.getCreated());
 			insertStm.setTimestamp(2, solution.getUpdated());
 			insertStm.setString(3, solution.getDescription());
+			insertStm.setInt(4, solution.getExerciseId());
+			insertStm.setInt(5, solution.getUserId());
 			int result = insertStm.executeUpdate();
 
 			if (result != 1) {
@@ -60,7 +59,9 @@ public class SolutionDao {
 					Timestamp created = rs.getTimestamp("created");
 					Timestamp updated = rs.getTimestamp("updated");
 					String description = rs.getString("description");
-					solution = new Solution(id, created, updated, description);
+					int userId = rs.getInt("user_id");
+					int exerciseId = rs.getInt("exercise_id");
+					solution = new Solution(id, created, updated, description, exerciseId, userId);
 				}
 			}
 		} catch (SQLException e) {
@@ -83,6 +84,8 @@ public class SolutionDao {
 				toAdd.setCreated(resultSet.getTimestamp("created"));
 				toAdd.setUpdated(resultSet.getTimestamp("updated"));
 				toAdd.setDescription(resultSet.getString("description"));
+				toAdd.setExerciseId(resultSet.getInt("exercise_id"));
+				toAdd.setUserId(resultSet.getInt("user_id"));
 				solutionList.add(toAdd);
 			}
 
@@ -102,10 +105,12 @@ public class SolutionDao {
 	public void update(Solution solution) {
 		try (Connection connection = DbUtil.getConnection("school");
 		     PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY);) {
-			statement.setInt(4, solution.getId());
+			statement.setInt(6, solution.getId());
 			statement.setTimestamp(1, solution.getCreated());
 			statement.setTimestamp(2, solution.getUpdated());
 			statement.setString(3, solution.getDescription());
+			statement.setInt(4, solution.getExerciseId());
+			statement.setInt(5, solution.getUserId());
 
 			statement.executeUpdate();
 		} catch (Exception e) {
@@ -125,6 +130,56 @@ public class SolutionDao {
 			e.printStackTrace();
 			System.out.println("Cos sie nie powiodło");
 		}
+	}
+
+	//	=============== SELECT BY EXERCISE ID  ===============
+
+	public Solution getByExerciseId(int searchId) {
+		Solution solution = null;
+		try (Connection conn = DbUtil.getConnection("school");
+		     PreparedStatement stat = conn.prepareStatement(SELECT_ALL_BY_EXERCISE_ID);
+		) {
+			stat.setInt(1, searchId);
+			try (ResultSet rs = stat.executeQuery()) {
+				while (rs.next()) {
+					int id = rs.getInt("id");
+					Timestamp created = rs.getTimestamp("created");
+					Timestamp updated = rs.getTimestamp("updated");
+					String description = rs.getString("description");
+					int userId = rs.getInt("user_id");
+					int exerciseId = rs.getInt("exercise_id");
+					solution = new Solution(id, created, updated, description, exerciseId, userId);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return solution;
+	}
+
+	//	=============== SELECT BY USER ID  ===============
+
+	public Solution getByUserId(int searchId) {
+		Solution solution = null;
+		try (Connection conn = DbUtil.getConnection("school");
+		     PreparedStatement stat = conn.prepareStatement(SELECT_ALL_BY_USER_ID);
+		) {
+			stat.setInt(1, searchId);
+			try (ResultSet rs = stat.executeQuery()) {
+				while (rs.next()) {
+					int id = rs.getInt("id");
+					Timestamp created = rs.getTimestamp("created");
+					Timestamp updated = rs.getTimestamp("updated");
+					String description = rs.getString("description");
+					int userId = rs.getInt("user_id");
+					int exerciseId = rs.getInt("exercise_id");
+					solution = new Solution(id, created, updated, description, exerciseId, userId);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return solution;
 	}
 
 }

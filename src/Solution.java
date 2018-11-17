@@ -1,6 +1,4 @@
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public class Solution {
 
@@ -8,12 +6,16 @@ public class Solution {
 	Timestamp created;
 	Timestamp updated;
 	String description;
+	int exerciseId;
+	int userId;
 
-	public Solution(int id, Timestamp created, Timestamp updated, String description) {
+	public Solution(int id, Timestamp created, Timestamp updated, String description, int exerciseId, int userId) {
 		this.id = id;
 		this.created = created;
 		this.updated = updated;
 		this.description = description;
+		this.exerciseId = exerciseId;
+		this.userId = userId;
 	}
 
 	public Solution() {}
@@ -48,5 +50,21 @@ public class Solution {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getExerciseId() {
+		return exerciseId;
+	}
+
+	public void setExerciseId(int exerciseId) {
+		this.exerciseId = exerciseId;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 }
