@@ -1,13 +1,11 @@
 package Manage;
 
-import Model.User;
-import Model.UserDao;
 import Model.UserGroup;
 import Model.UserGroupDao;
 
 import java.util.Scanner;
 
-public class GroupManage {
+public class UserGroupManage {
 	public static void main(String[] args) {
 
 		while (true) {
@@ -33,16 +31,19 @@ public class GroupManage {
 				case "add":
 					System.out.println("Podaj nazwę grupy");
 					String addName = scan.nextLine();
+					userGroupDao.create(new UserGroup(0, addName));
 					break;
 				case "edit":
 					System.out.println("Podaj id grupy");
-					String editId = scan.nextLine();
+					int editId = Integer.parseInt(scan.nextLine());
 					System.out.println("Podaj nazwę grupy");
 					String editName = scan.nextLine();
+					userGroupDao.update(new UserGroup(editId,editName));
 					break;
 				case "delete":
 					System.out.println("Podaj id grupy");
-					String deleteId = scan.nextLine();
+					int deleteId = Integer.parseInt(scan.nextLine());
+					userGroupDao.delete(deleteId);
 					break;
 				default:
 					System.out.println("Nie ma takiej opcji");
