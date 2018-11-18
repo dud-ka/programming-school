@@ -7,7 +7,7 @@ import Model.UserGroupDao;
 
 import java.util.Scanner;
 
-public class UserManage {
+public class UsersManage {
 	public static void main(String[] args) {
 		UserGroupDao userGroupDao= new UserGroupDao();
 		UserGroup[] userGroups = userGroupDao.getAll();

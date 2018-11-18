@@ -16,8 +16,6 @@ public class SolutionDao {
 	private static final String SELECT_ALL_BY_EXERCISE_ID = "SELECT * FROM solution WHERE exercise_id = ?;";
 	private static final String SELECT_ALL_BY_USER_ID = "SELECT * FROM solution WHERE user_id = ?;";
 
-
-
 	public Solution create(Solution solution) {
 		try (Connection connection = DbUtil.getConnection("school");
 		     PreparedStatement insertStm = connection.prepareStatement(CREATE_QUERY,

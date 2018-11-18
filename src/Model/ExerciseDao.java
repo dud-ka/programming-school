@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class ExerciseDao {
 
 	private static final String QUERY_SELECT = "SELECT * from exercise where id=?;";
@@ -16,6 +17,9 @@ public class ExerciseDao {
 	private static final String ALL_EXERCISES_QUERY = "SELECT * FROM exercise";
 	private static final String DELETE_QUERY = "DELETE FROM exercise WHERE id = ?;";
 	private static final String UPDATE_QUERY = "UPDATE exercise SET title = ?, description = ? WHERE id = ?;";
+	private static final String SELECT_EXERCISES_WITHOUT_SOLUTION_BY_USER_ID = "SELECT exercise.id, exercise.title FROM exercise LEFT JOIN  (SELECT solution.id, solution.user_id, solution.exercise_id" +
+			"            FROM solution" +
+			"            WHERE solution.user_id = ?)  as tab ON tab.exercise_id = exercise.id where tab.id IS NULL;";
 
 
 	public Exercise create(Exercise exercise) {
@@ -65,7 +69,6 @@ public class ExerciseDao {
 		}
 		return exercise;
 	}
-
 
 
 	public Exercise[] getAll() {
@@ -120,4 +123,31 @@ public class ExerciseDao {
 		}
 	}
 
+	public Exercise[] getExercisesWithoutSolutionByUserId(int searchId) {
+		List<Exercise> list = new ArrayList<>();
+		try (Connection connection = DbUtil.getConnection("school");
+		     PreparedStatement statement = connection.prepareStatement(SELECT_EXERCISES_WITHOUT_SOLUTION_BY_USER_ID);
+		) {
+			statement.setInt(1, searchId);
+			ResultSet resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				Exercise toAdd = new Exercise();
+				toAdd.setId(resultSet.getInt("id"));
+				toAdd.setTitle(resultSet.getString("title"));
+				list.add(toAdd);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Cos sie nie powiodło");
+		}
+
+		Exercise[] array = new Exercise[list.size()];
+		array = list.toArray(array);
+		return array;
+	}
+
 }
+
+
