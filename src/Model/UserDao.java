@@ -12,10 +12,10 @@ import java.util.List;
 public class UserDao {
 
 	private static final String QUERY_SELECT = "SELECT * from users where id=?;";
-	private static final String CREATE_QUERY = "INSERT INTO users(username, email, password, userGroupId) VALUES (?,?,?,?);";
+	private static final String CREATE_QUERY = "INSERT INTO users(username, email, password, user_group_id) VALUES (?,?,?,?);";
 	private static final String ALL_EXERCISES_QUERY = "SELECT * FROM users";
 	private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?;";
-	private static final String UPDATE_QUERY = "UPDATE users SET username = ?, email = ?, password = ?, userGroupId = ? WHERE id = ?;";
+	private static final String UPDATE_QUERY = "UPDATE users SET username = ?, email = ?, password = ?, user_group_id = ? WHERE id = ?;";
 	private static final String SELECT_ALL_BY_GROUP_ID = "SELECT * from users where user_group_id = ?;";
 
 

@@ -2,12 +2,15 @@ package Manage;
 
 import Model.User;
 import Model.UserDao;
+import Model.UserGroup;
+import Model.UserGroupDao;
 
 import java.util.Scanner;
 
 public class UserManage {
 	public static void main(String[] args) {
-
+		UserGroupDao userGroupDao= new UserGroupDao();
+		UserGroup[] userGroups = userGroupDao.getAll();
 		while (true) {
 			UserDao userDao = new UserDao();
 			User[] users = userDao.getAll();
@@ -35,20 +38,36 @@ public class UserManage {
 					String addPassword = scan.nextLine();
 					System.out.println("Podaj email użytkownika");
 					String addEmail = scan.nextLine();
+					System.out.println("Podaj id grupy użytkownika. Dostępne grupy:");
+
+					for (UserGroup group: userGroups){
+						System.out.println(group);
+					}
+
+					int addGroupId = Integer.parseInt(scan.nextLine());
+					userDao.create(new User(0, addName, addPassword, addEmail, addGroupId));
 					break;
 				case "edit":
 					System.out.println("Podaj id użytkownika");
-					String editId = scan.nextLine();
+					int editId = Integer.parseInt(scan.nextLine());
 					System.out.println("Podaj nazwę użytkownika");
 					String editName = scan.nextLine();
 					System.out.println("Podaj hasło użytkownika");
 					String editPassword = scan.nextLine();
 					System.out.println("Podaj email użytkownika");
 					String editEmail = scan.nextLine();
+					System.out.println("Podaj id grupy użytkownika. Dostępne grupy:");
+
+					for (UserGroup group: userGroups){
+						System.out.println(group);
+					}
+					int editGroupId = Integer.parseInt(scan.nextLine());
+					userDao.update(new User(editId, editName, editPassword, editEmail, editGroupId));
 					break;
 				case "delete":
 					System.out.println("Podaj id użytkownika");
-					String deleteId = scan.nextLine();
+					int deleteId = Integer.parseInt(scan.nextLine());
+					userDao.delete(deleteId);
 					break;
 				default:
 					System.out.println("Nie ma takiej opcji");
