@@ -1,0 +1,14 @@
+INSERT INTO school.solution (id, created, updated, description, exercise_id, user_id) VALUES (5, '2018-11-17 19:42:54', null, 'description', 1, 7);
+INSERT INTO school.solution (id, created, updated, description, exercise_id, user_id) VALUES (6, '2018-11-17 19:43:15', null, 'description', 5, 2);
+INSERT INTO school.solution (id, created, updated, description, exercise_id, user_id) VALUES (7, '2018-11-04 19:43:20', null, 'description', 3, 3);
+INSERT INTO school.solution (id, created, updated, description, exercise_id, user_id) VALUES (8, '2018-05-11 19:43:47', null, 'description', 4, 4);
+INSERT INTO school.solution (id, created, updated, description, exercise_id, user_id) VALUES (9, '2018-06-17 19:44:06', null, 'description', 1, 5);
+INSERT INTO school.solution (id, created, updated, description, exercise_id, user_id) VALUES (10, '2018-08-17 19:44:11', null, 'description', 5, 6);
+INSERT INTO school.solution (id, created, updated, description, exercise_id, user_id) VALUES (11, '2018-10-17 19:44:18', null, 'description', 3, 7);
+INSERT INTO school.solution (id, created, updated, description, exercise_id, user_id) VALUES (12, '2018-03-17 19:44:34', null, 'description', 4, 2);
+INSERT INTO school.solution (id, created, updated, description, exercise_id, user_id) VALUES (13, '2018-11-18 11:44:54', null, null, 5, 2);
+INSERT INTO school.solution (id, created, updated, description, exercise_id, user_id) VALUES (14, '2018-11-18 11:46:32', null, null, 5, 3);
+INSERT INTO school.solution (id, created, updated, description, exercise_id, user_id) VALUES (15, '2018-11-18 11:47:07', null, null, 4, 4);
+INSERT INTO school.solution (id, created, updated, description, exercise_id, user_id) VALUES (16, '2018-11-18 11:48:10', null, null, 4, 7);
+INSERT INTO school.solution (id, created, updated, description, exercise_id, user_id) VALUES (17, '2018-11-18 15:11:22', null, 'rozwiazanie zadania 1', 1, 2);
+INSERT INTO school.solution (id, created, updated, description, exercise_id, user_id) VALUES (18, '2018-11-18 15:15:46', null, 'rozwiazanie zadania 3', 3, 2);
